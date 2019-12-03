@@ -1,0 +1,136 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-3">
+            <!-- List of images on left side -->
+            <app-list-images [imageset]="imageset"></app-list-images>
+        </div>
+
+        <div class="col col-6">
+            <!-- Annotation window in center of screen -->
+            <div class="card">
+                <h5 class="card-header">Annotate {{image.name}}</h5>
+
+                <div class="image-wrapper">
+                    <!-- Canvas with image and actual annotations shown -->
+                    <img class="card-img" [src]="environment.mediaUrl + image.url" alt="Image to annotate">
+                    <canvas appAnnotatable
+                            [annotationConfig]="annotationConfigData"
+                            [imageData]="image"
+                            [visibleAnnotations]="visibleAnnotations"
+                            [annotationTypes]="annotationTypes"
+                            (prematureAnnotationChanges)="prematureAnnotation = $event">
+                        Unable to load Canvas for {{image.name}}
+                    </canvas>
+                </div>
+
+                <div class="card-body">
+                    <!-- List of annotations -->
+                    <div class="card-title">
+                        <span class="h5">Annotations</span>
+                    </div>
+
+                    <div *ngIf="prematureAnnotation && prematureAnnotation.vector">
+                        <!-- Premature Annotations -->
+                        <div class="dropdown-divider"></div>
+                        <span>
+                            <i>(WIP)</i> {{prematureAnnotation.annotationType.name}}
+                            {{prematureAnnotation.blurred ? '(blurred)' : ''}}
+                            {{prematureAnnotation.concealed ? '(concealed)' : ''}}
+                        </span>
+                        <button class="btn btn-danger float-right" (click)="annotatableDirective.reset()">
+                            <i class="fa fa-toilet-paper"></i> Reset
+                        </button>
+                        <button class="btn btn-success float-right mx-1" (click)="actSave()">
+                            <i class="fa fa-save"></i> Save
+                        </button>
+                        <br>
+                        <span *ngFor="let point of annotationVectorToIterable(prematureAnnotation.vector)"
+                              class="text-muted">
+                            {{point.key}}:{{point.value}}
+                        </span>
+                    </div>
+
+                    <div *ngFor="let annotation of image.annotations">
+                        <!-- Completed annotations -->
+                        <div class="dropdown-divider"></div>
+                        <span>
+                            {{findAnnotationType(annotation.annotationType).name}}
+                            {{annotation.blurred ? '(blurred)' : ''}}
+                            {{annotation.concealed ? '(concealed)' : ''}}
+                        </span>
+                        <button class="btn btn-danger float-right" (click)="actDeleteAnnotation(annotation.id)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button class="btn float-right mx-2"
+                                [class.btn-secondary]="visibleAnnotations.includes(annotation)"
+                                [class.btn-outline-secondary]="!visibleAnnotations.includes(annotation)"
+                                (click)="actToggleVisibility(annotation)">
+                            <i class="fa"
+                               [class.fa-eye]="visibleAnnotations.includes(annotation)"
+                               [class.fa-eye-slash]="!visibleAnnotations.includes(annotation)"></i>
+                        </button>
+                        <br>
+                        <span *ngFor="let point of annotationVectorToIterable(annotation.vector)" class="text-muted">
+                            {{point.key}}:{{point.value}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-3">
+            <!-- AnnotationType controls -->
+            <div class="card">
+                <div class="card-body">
+                    <app-annotation-type-config (update)="annotationConfigData = $event"></app-annotation-type-config>
+                    <div class="alert alert-danger">At some point there will be a bounding box which can be moved with
+                        i j k l
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-2"></div>
+            <!-- Navigation buttons -->
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="form-group form-check">
+                            <input class="form-check-input" id="inp-keepSelection" type="checkbox"
+                                   [formControl]="keepAnnotationForNextImage">
+                            <label class="form-check-label" for="inp-keepSelection">
+                                Keep Selection for next Image
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <button (click)="actSave()" class="btn btn-success col mx-3 my-1"
+                                        [disabled]="prematureAnnotation === undefined ||
+                                        prematureAnnotation === null || prematureAnnotation.vector === null">
+                                    <i class="fa fa-save"></i> Save
+                                </button>
+                                <button (click)="annotatableDirective.reset()"
+                                        class="btn btn-danger col mx-3 my-1"
+                                        [disabled]="prematureAnnotation === undefined ||
+                                        prematureAnnotation === null || prematureAnnotation.vector === null">
+                                    <i class="fa fa-toilet-paper"></i> Reset
+                                </button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-success col mx-3 my-1" disabled>Back and Save</button>
+                                <button class="btn btn-success col mx-3 my-1" disabled>Next and Save</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-outline-secondary col mx-3 my-1"
+                                        [disabled]="getPrevImageUrl() === ''" [routerLink]="getPrevImageUrl()">Back
+                                </button>
+                                <button class="btn btn-outline-secondary col mx-3 my-1"
+                                        [disabled]="getNextImageUrl() === ''" [routerLink]="getNextImageUrl()">Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

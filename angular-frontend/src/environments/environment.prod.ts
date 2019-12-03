@@ -1,17 +1,23 @@
-import {ErrorHandler} from '@angular/core';
+import {Environment} from './abstract-environment';
 
 
-export const environment = {
-    production: true,
-    apiUrl: '',     // TODO Configure production API Url,
-    mediaUrl: '',
-    sessionStoragePrefix: 'imagetagger',
-    localStoragePrefix: 'imagetagger'
-};
+export class ProdEnvironment extends Environment {
+    production: true;
+    apiUrl = null;    // TODO setup production Urls
+    mediaUrl = null;
+    localStoragePrefix = 'imagetagger';
+    sessionStoragePrefix = 'imagetagger';
 
-
-export class RavenErrorHandler implements ErrorHandler { // TODO Configure actual Raven reporting
     handleError(error: any): void {
-        console.error(error.toString());
+        if (error.toString() !== '[object Object]') {
+            console.error(error.toString());
+        } else {
+            console.error(error);
+        }
+    }
+
+    onAppLoad(): void {
     }
 }
+
+export const EnvironmentImpl = ProdEnvironment;
