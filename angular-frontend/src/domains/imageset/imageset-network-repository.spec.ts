@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 import {ImageSetNetworkRepositoryService} from './imageset-network-repository.service';
 import {entityFromDto} from '../seedwork/entity';
-import {ImageSet} from './imageset';
+import {Imageset} from './imageset';
 import {MockHttpHandler} from '../../infrastructure/network.caching-http/caching-http.service.spec';
 import {HttpHandler} from '@angular/common/http';
 
 
 describe('ImageSetService', () => {
-    const testSet = entityFromDto<ImageSet>({
+    const testSet = entityFromDto<Imageset>({
         id: 1,
         name: 'test-set',
         time: '11223344',
@@ -34,7 +34,7 @@ describe('ImageSetService', () => {
         images: [1, 2, 3],
         mainAnnotationType: 15,
         team: 1,
-    }, ImageSet.prototype);
+    }, Imageset.prototype);
 
     beforeEach(() => TestBed.configureTestingModule({
         providers: [

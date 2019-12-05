@@ -1,6 +1,6 @@
 import {Entity} from '../seedwork/entity';
 
-export class ImageSet extends Entity {
+export class Imageset extends Entity {
     id: number;
     name: string;
     location?: string;
@@ -20,6 +20,10 @@ export class ImageSet extends Entity {
     mainAnnotationType?: number;    // Reference to AnnotationType
     team: number;       // Reference to Team
     creator?: number;    // Reference to User
+
+    public togglePinned(): void {
+        this.isPinned = !this.isPinned;
+    }
 }
 
 

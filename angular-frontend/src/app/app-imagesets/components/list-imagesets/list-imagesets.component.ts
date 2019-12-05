@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, zip} from 'rxjs';
-import {ImageSet} from '../../../../domains/imageset/imageset';
+import {Imageset} from '../../../../domains/imageset/imageset';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImagesetInUser, User} from '../../../../domains/user/user';
@@ -17,8 +17,8 @@ export class ListImagesetsComponent implements OnInit {
     user: User;
     ownTeams: Team[];
 
-    protected visibleSets: ImageSet[];
-    private allImagesets: ImageSet[];
+    protected visibleSets: Imageset[];
+    private allImagesets: Imageset[];
 
     constructor(protected router: Router, protected activeRoute: ActivatedRoute) {
     }
@@ -45,7 +45,7 @@ export class ListImagesetsComponent implements OnInit {
      *      When it is 'pinned' only the users pinned imagesets get returned.
      *      When it is a number that number should refer to a Teams ID and only that teams imagesets get returned.
      */
-    private getVisibleSets(filter: string | number): ImageSet[] {
+    private getVisibleSets(filter: string | number): Imageset[] {
         if (filter === 'pinned') {
             return this.allImagesets.filter(imageset => this.user.pinnedSets.includes(imageset.id));
         } else {

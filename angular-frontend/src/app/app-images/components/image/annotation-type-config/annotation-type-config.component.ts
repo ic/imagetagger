@@ -3,7 +3,7 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors} from '@angula
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {combineLatest} from 'rxjs';
 import {AnnotationType} from '../../../../../domains/annotation-type/annotation-type';
-import {ImageSet} from '../../../../../domains/imageset/imageset';
+import {Imageset} from '../../../../../domains/imageset/imageset';
 import {filter, map} from 'rxjs/operators';
 
 
@@ -26,7 +26,7 @@ export class AnnotationTypeConfigComponent implements OnInit {
     @Output() update: EventEmitter<AnnotationConfigData> = new EventEmitter(true);
 
     protected annotationTypes: AnnotationType[];
-    protected imageset: ImageSet;
+    protected imageset: Imageset;
 
     protected form = new FormGroup({
         annotationType: new FormControl('', notEmptyValidator),

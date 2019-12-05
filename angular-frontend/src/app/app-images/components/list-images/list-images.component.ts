@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ImageSet} from '../../../../domains/imageset/imageset';
+import {Imageset} from '../../../../domains/imageset/imageset';
 
 @Component({
     selector: 'app-list-images',
@@ -8,7 +8,7 @@ import {ImageSet} from '../../../../domains/imageset/imageset';
 })
 export class ListImagesComponent implements OnInit {
 
-    @Input() imageset: ImageSet;
+    @Input() imageset: Imageset;
 
     constructor() {
     }

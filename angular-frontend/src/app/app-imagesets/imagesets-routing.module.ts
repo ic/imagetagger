@@ -5,6 +5,9 @@ import {AllImageSetsResolver} from '../../domains/imageset/resolvers/all-image-s
 import {OwnUserResolver} from '../../domains/user/resolvers/own-user-resolver.service';
 import {OwnTeamsResolver} from '../../domains/team/resolvers/own-teams-resolver.service';
 import {ImagesetComponent} from './components/imageset/imageset.component';
+import {ImagesetResolver} from '../../domains/imageset/resolvers/imageset-resolver.service';
+import {ImagesetChildTeamResolver} from '../../domains/imageset/resolvers/imageset-child-team-resolver.service';
+import {ImagesetChildCreatorResolver} from '../../domains/imageset/resolvers/imageset-child-creator-resolver.service';
 
 
 const routes: Routes = [
@@ -25,7 +28,13 @@ const routes: Routes = [
 
     {
         path: ':imagesetId', children: [
-            {path: '', pathMatch: 'full', component: ImagesetComponent}
+            {
+                path: '', pathMatch: 'full', component: ImagesetComponent, resolve: {
+                    imageset: ImagesetResolver,
+                    team: ImagesetChildTeamResolver,
+                    creator: ImagesetChildCreatorResolver,
+                }
+            }
         ]
     },
 

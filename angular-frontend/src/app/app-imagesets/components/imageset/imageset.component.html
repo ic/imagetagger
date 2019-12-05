@@ -6,9 +6,9 @@
 
         <div class="col col-6">
             <div class="card">
-                <h5 class="card-header">Information about {{imageSet.name}}
-                    <button [class]="'float-right btn btn-' + (   imageSet.isPinned ? '' : 'outline-') + 'primary'"
-                            (click)="togglePin()">
+                <h5 class="card-header">Information about {{imageset.name}}
+                    <button [class]="'float-right btn btn-' + (   imageset.isPinned ? '' : 'outline-') + 'primary'"
+                            (click)="togglePinned()">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
                 </h5>
@@ -17,34 +17,36 @@
                         <tbody>
                         <tr>
                             <td>Name</td>
-                            <td>{{imageSet.name}}</td>
+                            <td>{{imageset.name}}</td>
                         </tr>
                         <tr>
                             <td>Team</td>
-                            <td>{{imageSet.team.name}}</td> <!-- TODO Figure out how to resolve team -->
+                            <td>{{team.name}}</td> <!-- TODO Figure out how to resolve team -->
                         </tr>
                         <tr>
                             <td>Tags</td>
-                            <td *ngIf="!imageSet.tags">No tags</td>
-                            <td *ngIf="imageSet.tags">
-                                <span *ngFor="let tag of imageSet.tags" class="badge">{{tag}} </span>
+                            <td *ngIf="imageset.tags.length === 0" class="unimportant">No tags</td>
+                            <td *ngIf="imageset.tags">
+                                <span *ngFor="let tag of imageset.tags" class="badge">{{tag}} </span>
                             </td> <!-- TODO Link to explore with tag as search -->
                         </tr>
                         <tr>
                             <td>Location</td>
-                            <td>{{imageSet.location}}</td>
+                            <td *ngIf="!imageset.location" class="unimportant">Not set</td>
+                            <td *ngIf="imageset.location">{{imageset.location}}</td>
                         </tr>
                         <tr>
                             <td>Description</td>
-                            <td>{{imageSet.description}}</td>
+                            <td *ngIf="!imageset.description" class="unimportant">Not set</td>
+                            <td *ngIf="imageset.description">{{imageset.description}}</td>
                         </tr>
-                        <tr *ngIf="imageSet.creator">
+                        <tr>
                             <td>Creator</td>
-                            <td>{{imageSet.creator.name}}</td>
+                            <td>{{creator.username}}</td>
                         </tr>
                         <tr>
                             <td>Image Count</td>
-                            <td>{{imageSet.numberOfImages}}</td>
+                            <td>{{imageset.numberOfImages}}</td>
                         </tr>
                         <tr>
                             <td>Annotation Count</td>
@@ -54,13 +56,15 @@
                             <td>Download</td>
                             <td>
                                 <ul>
-                                    <li><a routerLink="./">Download zip</a></li>
-                                    <!-- TODO Figure out how to download zips -->
+                                    <li>
+                                        <a routerLink="./">Download zip</a>
+                                        <!-- TODO Figure out how to download zips -->
+                                    </li>
                                     <li>
                                 <span>Use <a routerLink="./">Imagetagger Download Script</a> to download all images
                                 to your current directory:</span><br>
                                         <code class="m-3">
-                                            ./imagetagger_dl_script.py {{imageSet.id}}
+                                            ./imagetagger_dl_script.py {{imageset.id}}
                                         </code>
                                     </li>
                                 </ul>

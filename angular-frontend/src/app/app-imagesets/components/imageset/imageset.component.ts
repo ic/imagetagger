@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ImageSet} from '../../../../domains/imageset/imageset';
-import {ImagesetData} from './imageset-resolver.service';
+import {Imageset} from '../../../../domains/imageset/imageset';
 import {ImageSetNetworkRepositoryService} from '../../../../domains/imageset/imageset-network-repository.service';
+import {Team} from '../../../../domains/team/team';
+import {User} from '../../../../domains/user/user';
+
 
 @Component({
     selector: 'app-imageset',
@@ -11,23 +13,24 @@ import {ImageSetNetworkRepositoryService} from '../../../../domains/imageset/ima
 })
 export class ImagesetComponent implements OnInit {
 
-    protected imageSet: ImageSet;
+    protected imageset: Imageset;
+    protected team: Team;
+    protected creator: User;
 
-    constructor(private imageSetService: ImageSetNetworkRepositoryService, private route: ActivatedRoute) {
+    constructor(private imagesetService: ImageSetNetworkRepositoryService, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.route.data.subscribe((data: { imageSetData: ImagesetData }) => {
-            this.imageSet = data.imageSetData.set;
+        this.route.data.subscribe(data => {
+            this.imageset = data.imageset;
+            this.team = data.team;
+            this.creator = data.creator;
         });
     }
 
-    protected togglePin() {
-        if (this.imageSet.isPinned) {
-            this.imageSetService.unpin(this.imageSet.id).subscribe(() => this.imageSet.isPinned = false);
-        } else {
-            this.imageSetService.pin(this.imageSet.id).subscribe(() => this.imageSet.isPinned = true);
-        }
+    protected togglePinned() {
+        this.imageset.togglePinned();
+        this.imagesetService.save(this.imageset);
     }
 
 }

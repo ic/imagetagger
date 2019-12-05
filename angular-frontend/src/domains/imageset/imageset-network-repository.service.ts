@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {forkJoin, Observable, of} from 'rxjs';
-import {ImageSet} from './imageset';
+import {Imageset} from './imageset';
 import {IRepository} from '../seedwork/i-repository';
 import {entityFromDto} from '../seedwork/entity';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -14,7 +14,7 @@ import {Team} from '../team/team';
 @Injectable({
     providedIn: 'root'
 })
-export class ImageSetNetworkRepositoryService implements IRepository<ImageSet> {
+export class ImageSetNetworkRepositoryService implements IRepository<Imageset> {
 
     public url: string;
 
@@ -22,26 +22,26 @@ export class ImageSetNetworkRepositoryService implements IRepository<ImageSet> {
         this.url = environment.apiUrl + 'image_sets/';
     }
 
-    get(key: number): Observable<ImageSet> {
+    get(key: number): Observable<Imageset> {
         const url = `${this.url}${key}/`;
         return this.http.get<object>(url)
-            .pipe(map(dto => entityFromDto(dto, ImageSet.prototype)));
+            .pipe(map(dto => entityFromDto(dto, Imageset.prototype)));
     }
 
-    remove(obj: ImageSet): void {
+    remove(obj: Imageset): void {
         throw new NotImplementedException();
     }
 
-    save(obj: ImageSet): void {
+    save(obj: Imageset): void {
         throw new NotImplementedException();
     }
 
-    getAll(): Observable<ImageSet[]> {
+    getAll(): Observable<Imageset[]> {
         return this.http.get<object[]>(this.url).pipe(
             map(dtos => {
                 const result = [];
                 for (const dto of dtos) {
-                    result.push(entityFromDto(dto, ImageSet.prototype));
+                    result.push(entityFromDto(dto, Imageset.prototype));
                 }
                 return result;
             })
@@ -51,16 +51,16 @@ export class ImageSetNetworkRepositoryService implements IRepository<ImageSet> {
     /**
      * @deprecated
      */
-    public list(): Observable<ImageSet[]> {
-        return this.http.get<ImageSet[]>(this.url);
+    public list(): Observable<Imageset[]> {
+        return this.http.get<Imageset[]>(this.url);
     }
 
     /**
      * @deprecated
      */
-    public read(id: number): Observable<ImageSet> {
+    public read(id: number): Observable<Imageset> {
         const url = `${this.url}${id}/`;
-        return this.http.get<ImageSet>(url);
+        return this.http.get<Imageset>(url);
     }
 
     /**
