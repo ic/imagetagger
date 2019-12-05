@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, zip} from 'rxjs';
-import {ImageSet} from '../../../../../domains/imageset/imageset';
+import {ImageSet} from '../../../../domains/imageset/imageset';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ImagesetInUser, User} from '../../../../../domains/user/user';
-import {Team} from '../../../../../domains/team/team';
+import {ImagesetInUser, User} from '../../../../domains/user/user';
+import {Team} from '../../../../domains/team/team';
 
 
 @Component({

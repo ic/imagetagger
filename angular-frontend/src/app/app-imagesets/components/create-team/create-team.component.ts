@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TeamNetworkRepositoryService} from '../../../../../domains/team/team-network-repository.service';
+import {TeamNetworkRepositoryService} from '../../../../domains/team/team-network-repository.service';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({

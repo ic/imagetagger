@@ -5,10 +5,10 @@ import {LoginComponent} from '../auth/login/login.component';
 
 
 const routes: Routes = [
-    {path: 'images', loadChildren: 'src/app/app-images/images.module#ImagesModule'},
+    {path: 'imagesets', loadChildren: 'src/app/app-imagesets/imagesets.module#ImagesetsModule'},
     {path: 'login', component: LoginComponent},
 
-    {path: '', pathMatch: 'full', redirectTo: 'images'},
+    {path: '', pathMatch: 'full', redirectTo: 'imagesets'},
 
     {path: '*', component: PageNotFoundComponent},
     {path: '404', component: PageNotFoundComponent},

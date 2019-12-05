@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImagesData} from './image-resolver.service';
-import {ImagesetData} from '../imageset/imageset-resolver.service';
+import {ImagesetData} from '../../../app-imagesets/components/imageset/imageset-resolver.service';
 import {ImageSet} from '../../../../domains/imageset/imageset';
 import {AnnotationInImage, Image} from '../../../../domains/image/image';
 import {FormControl} from '@angular/forms';
