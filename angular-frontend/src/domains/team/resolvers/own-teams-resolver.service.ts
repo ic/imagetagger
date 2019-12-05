@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Team} from '../../../domains/team/team';
-import {TeamNetworkRepositoryService} from '../../../domains/team/team-network-repository.service';
+import {Team} from '../team';
+import {TeamNetworkRepositoryService} from '../team-network-repository.service';
 
 
 @Injectable({

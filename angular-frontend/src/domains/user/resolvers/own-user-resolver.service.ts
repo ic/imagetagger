@@ -1,23 +1,22 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {User} from '../../../domains/user/user';
+import {User} from '../user';
 import {Observable} from 'rxjs';
-import {AuthService} from '../../auth/auth.service';
-import {UserNetworkRepositoryService} from '../../../domains/user/user-network-repository.service';
-import {switchMap} from 'rxjs/operators';
+import {AuthService} from '../../../app/auth/auth.service';
+import {UserNetworkRepositoryService} from '../user-network-repository.service';
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthenticatedUserResolver implements Resolve<User> {
+export class OwnUserResolver implements Resolve<User> {
 
     constructor(private userRepo: UserNetworkRepositoryService, private authService: AuthService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User | null> {
         if (this.authService.isLoggedIn()) {
-            return this.userRepo.get('me');
+            return this.userRepo.getMe();
         } else {
             return null;
         }

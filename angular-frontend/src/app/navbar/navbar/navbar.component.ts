@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {UserNetworkRepositoryService} from '../../../domains/user/user-network-repository.service';
 import {User} from '../../../domains/user/user';
-import {Observable} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
-import {ActivatedRoute} from '@angular/router';
+import {Team} from '../../../domains/team/team';
+import {TeamNetworkRepositoryService} from '../../../domains/team/team-network-repository.service';
+import {UserNetworkRepositoryService} from '../../../domains/user/user-network-repository.service';
+import {Observable} from 'rxjs';
+
 
 @Component({
     selector: 'app-navbar',
@@ -12,16 +14,16 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-    // protected user$: Observable<User>;
-    protected user: User;
+    protected user$: Observable<User>;
+    protected ownTeams$: Observable<Team[]>;
 
-    constructor(private route: ActivatedRoute, private authService: AuthService) {
+    constructor(private authService: AuthService, private userService: UserNetworkRepositoryService,
+                private teamService: TeamNetworkRepositoryService) {
     }
 
     ngOnInit() {
-        this.route.data.subscribe((data: {authorizedUser: User}) => {
-            this.user = data.authorizedUser;
-        });
+        this.user$ = this.userService.getMe();
+        this.ownTeams$ = this.teamService.getOwnTeams();
     }
 
 }

@@ -1,23 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './components/home/home.component';
-import {AuthenticatedUserResolver} from './resolvers/authenticated-user-resolver.service';
-import {OwnTeamsResolver} from './resolvers/own-teams-resolver.service';
-
-
-const routesWithGlobalData: Routes = [
-    {path: 'sets', pathMatch: 'prefix', component: HomeComponent}
-];
+import {AllImageSetsResolver} from '../../domains/imageset/resolvers/all-image-sets-resolver.service';
 
 
 const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'sets'},
     {
-        path: '', pathMatch: 'prefix', children: routesWithGlobalData, resolve: {
-            authenticatedUser: AuthenticatedUserResolver,
-            ownTeams: OwnTeamsResolver
-        }
+        path: 'sets', pathMatch: 'prefix', children: [
+            {path: ':visibleSet', pathMatch: 'full', component: HomeComponent, resolve: {allImagesets: AllImageSetsResolver}},
+
+            {path: '', pathMatch: 'full', redirectTo: 'pinned'}
+        ]
     },
+    {path: '', pathMatch: 'full', redirectTo: 'sets'},
 
     /*
     {

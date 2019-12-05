@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {forkJoin, Observable, of} from 'rxjs';
 import {Team} from './team';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mapTo, switchMap, tap} from 'rxjs/operators';
 import {IRepository} from '../seedwork/i-repository';
 import {entityFromDto} from '../seedwork/entity';
 import {NotImplementedException} from '../seedwork/exceptions/not-implemented-exception';
@@ -37,14 +37,16 @@ export class TeamNetworkRepositoryService implements IRepository<Team> {
     }
 
     getOwnTeams(): Observable<Team[]> {             // TODO Write unit test!!!
-        return this.userRepository.get('me').pipe(
+        return this.userRepository.getMe().pipe(
             switchMap((user: User) => {
                 const teamRequests = [];
                 for (const teamId of user.teams) {
                     teamRequests.push(this.get(teamId));
                 }
                 return forkJoin(teamRequests);
-            })
+            }),
+            catchError(() => []
+            ),
         );
     }
 

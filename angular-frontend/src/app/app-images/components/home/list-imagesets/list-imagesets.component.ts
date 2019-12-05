@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ImageSetNetworkRepositoryService} from '../../../../../domains/imageset/imageset-network-repository.service';
+import {Component, OnInit} from '@angular/core';
+import {Observable, zip} from 'rxjs';
 import {ImageSet} from '../../../../../domains/imageset/imageset';
-import {UserNetworkRepositoryService} from '../../../../../domains/user/user-network-repository.service';
-import {map, flatMap, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImagesetInUser, User} from '../../../../../domains/user/user';
+import {Team} from '../../../../../domains/team/team';
+
 
 @Component({
     selector: 'app-list-imagesets',
@@ -14,30 +14,49 @@ import {ImagesetInUser, User} from '../../../../../domains/user/user';
 })
 export class ListImagesetsComponent implements OnInit {
 
-    @Input() imagesets: ImageSet[];
-    @Input() user: User;
+    user: User;
+    ownTeams: Team[];
 
-    protected visibleSets$: Observable<ImagesetInUser[]>;
+    protected visibleSets: ImageSet[];
+    private allImagesets: ImageSet[];
 
     constructor(protected router: Router, protected activeRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        // Define visibleSets$ to be selected by route-parameter and if that parameter is an ID, filter imageSets$ to only include sets
-        // from the ID's corresponding team
-        /*this.visibleSets$ = this.activeRoute.paramMap.pipe(
-            map(params => {
-                const selection = params.get('visibleSet');
+        zip(
+            this.activeRoute.data,
+            this.activeRoute.paramMap
+        ).subscribe(arr => {
+            const data = arr[0];
+            const paramMap = arr[1];
 
-                if (selection === 'pinned') {
-                    return this.user.pinnedSetIDs;
-                } else {
-                    return this.imagesets.filter(i => i.team.id.toString() === selection);
-                }
-            })
-        );*/
+            this.allImagesets = data.allImagesets;
+            this.user = data.authenticatedUser;
+            this.ownTeams = data.ownTeams;
+
+            this.visibleSets = this.getVisibleSets(paramMap.get('visibleSet'));
+        });
     }
 
+    /**
+     * Get list of Imagesets which are visible when the specified filter is applied
+     * @param filter Filter to apply to this.allImagesets.
+     *      When it is 'pinned' only the users pinned imagesets get returned.
+     *      When it is a number that number should refer to a Teams ID and only that teams imagesets get returned.
+     */
+    private getVisibleSets(filter: string): ImageSet[] {
+        if (filter === 'pinned') {
+            return this.allImagesets.filter(imageset => this.user.pinnedSets.includes(imageset.id));
+        } else {
+            return this.allImagesets.filter(imageset => imageset.team.toString() === filter);
+        }
+    }
+
+    /**
+     * Returns whether or not the specified navSection is currently active based on URL parameters
+     * @param navSection The navSection to check for activity
+     */
     protected isNavActive(navSection: string | number): Observable<boolean> {
         if (typeof navSection === 'number') {
             navSection = navSection.toString();

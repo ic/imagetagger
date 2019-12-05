@@ -6,14 +6,14 @@
                 <a class="nav-link" routerLinkActive="active"
                    routerLink="../pinned">Pinned Sets</a>
             </li>
-            <li *ngFor="let team of user.teams">
+            <li *ngFor="let team of ownTeams">
                 <a class="nav-link" routerLinkActive="active"
                    [routerLink]="'../' + team.id">{{team.name}}'s Sets</a>
             </li>
         </ul>
     </div>
 
-    <div *ngIf="(isNavActive('pinned') | async) && (visibleSets$ | async)?.length == 0" class="card-body">
+    <div *ngIf="(isNavActive('pinned') | async) && visibleSets.length == 0" class="card-body">
         <div class="container">
             <h1 class="display-4">No pinned sets</h1>
             <p class="lead">
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div *ngIf="!(isNavActive('pinned') | async) && (visibleSets$ | async)?.length === 0" class="card-body">
+    <div *ngIf="!(isNavActive('pinned') | async) && visibleSets.length === 0" class="card-body">
         <div class="container">
             <h1 class="display-4">No Imagesets</h1>
             <p class="lead">
@@ -33,9 +33,9 @@
         </div>
     </div>
 
-    <div *ngIf="(visibleSets$ | async)?.length > 0" class="card-body">
+    <div *ngIf="visibleSets.length > 0" class="card-body">
         <ul class="list-group">
-            <a *ngFor="let set of (visibleSets$ | async)" class="list-group-item list-group-item-action"
+            <a *ngFor="let set of visibleSets" class="list-group-item list-group-item-action"
                [routerLink]="'../imagesets/' + set.id">
                 {{set.name}} <span class="text-muted">({{set.numberOfImages}} images)</span>
             </a>
