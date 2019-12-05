@@ -45,10 +45,11 @@ export class ListImagesetsComponent implements OnInit {
      *      When it is 'pinned' only the users pinned imagesets get returned.
      *      When it is a number that number should refer to a Teams ID and only that teams imagesets get returned.
      */
-    private getVisibleSets(filter: string): ImageSet[] {
+    private getVisibleSets(filter: string | number): ImageSet[] {
         if (filter === 'pinned') {
             return this.allImagesets.filter(imageset => this.user.pinnedSets.includes(imageset.id));
         } else {
+            filter = filter.toString();
             return this.allImagesets.filter(imageset => imageset.team.toString() === filter);
         }
     }

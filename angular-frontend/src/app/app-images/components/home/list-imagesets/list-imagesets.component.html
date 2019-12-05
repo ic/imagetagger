@@ -13,30 +13,33 @@
         </ul>
     </div>
 
+    <!-- "No pinned sets" message for pinned Imagesets -->
     <div *ngIf="(isNavActive('pinned') | async) && visibleSets.length == 0" class="card-body">
         <div class="container">
             <h1 class="display-4">No pinned sets</h1>
             <p class="lead">
-                You don't have any pinned sets yet. <span class="mx-3"></span>Sad :(<br>
+                You don't have any pinned sets yet.<br>
                 You can pin an Imageset when viewing it on the top-right.
             </p>
         </div>
     </div>
 
+    <!-- "No pinned sets" message for a teams Imageset list -->
     <div *ngIf="!(isNavActive('pinned') | async) && visibleSets.length === 0" class="card-body">
         <div class="container">
             <h1 class="display-4">No Imagesets</h1>
             <p class="lead">
-                This Team does not have any Imagesets yet. <span class="mx-3"></span>Sad :(<br>
+                This Team does not have any Imagesets yet.<br>
                 You can create a new Imageset on the right side of this page via "Create Imageset"
             </p>
         </div>
     </div>
 
+    <!-- Actual list of imagesets -->
     <div *ngIf="visibleSets.length > 0" class="card-body">
         <ul class="list-group">
             <a *ngFor="let set of visibleSets" class="list-group-item list-group-item-action"
-               [routerLink]="'../imagesets/' + set.id">
+               [routerLink]="'../../' + set.id">
                 {{set.name}} <span class="text-muted">({{set.numberOfImages}} images)</span>
             </a>
         </ul>
