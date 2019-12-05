@@ -1,15 +1,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col col-3">
-            <!--app-list-images [imageset]="imageSet"></app-list-images--> <!-- TODO reenable -->
+            <app-list-images></app-list-images>
         </div>
 
         <div class="col col-6">
             <div class="card">
                 <h5 class="card-header">Information about {{imageset.name}}
-                    <button [class]="'float-right btn btn-' + (   imageset.isPinned ? '' : 'outline-') + 'primary'"
+                    <button [class]="'float-right btn btn-' + (imageset.isPinned ? '' : 'outline-') + 'primary'"
                             (click)="togglePinned()">
-                        <i class="fa fa-thumb-tack"></i>
+                        <i class="fa fa-thumbtack"></i>
                     </button>
                 </h5>
                 <div class="card-body">

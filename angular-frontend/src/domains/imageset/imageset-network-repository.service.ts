@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Imageset} from './imageset';
 import {IRepository} from '../seedwork/i-repository';
 import {entityFromDto} from '../seedwork/entity';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {NotImplementedException} from '../seedwork/exceptions/not-implemented-exception';
 import {Environment} from '../../environments/abstract-environment';
 import {UserNetworkRepositoryService} from '../user/user-network-repository.service';
-import {User} from '../user/user';
-import {Team} from '../team/team';
 
 @Injectable({
     providedIn: 'root'

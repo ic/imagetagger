@@ -20,9 +20,9 @@ export class ImagesetChildTeamResolver implements Resolve<Team> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> {
-        const id = route.paramMap.get('imagesetId');
+        const id = +route.paramMap.get('imagesetId');
         return this.imagesetService.get(+id).pipe(
-            switchMap(imageset => this.teamService.get(imageset.team)),
+            switchMap(imageset => this.teamService.getTeamFromImageset(imageset)),
         );
     }
 }

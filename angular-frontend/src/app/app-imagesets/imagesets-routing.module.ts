@@ -8,6 +8,7 @@ import {ImagesetComponent} from './components/imageset/imageset.component';
 import {ImagesetResolver} from '../../domains/imageset/resolvers/imageset-resolver.service';
 import {ImagesetChildTeamResolver} from '../../domains/imageset/resolvers/imageset-child-team-resolver.service';
 import {ImagesetChildCreatorResolver} from '../../domains/imageset/resolvers/imageset-child-creator-resolver.service';
+import {ImagesetChildImagesResolver} from '../../domains/imageset/resolvers/imageset-child-images-resolver.service';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
                     imageset: ImagesetResolver,
                     team: ImagesetChildTeamResolver,
                     creator: ImagesetChildCreatorResolver,
+                    images: ImagesetChildImagesResolver,
                 }
             }
         ]

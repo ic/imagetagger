@@ -20,7 +20,9 @@ import {AnnotatableDirective} from './components/image/annotatable/annotatable.d
         ReactiveFormsModule,
         ImagesRoutingModule
     ],
-    exports: []
+    exports: [
+        ListImagesComponent
+    ]
 })
 export class ImagesModule {
 }

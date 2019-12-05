@@ -40,7 +40,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     ngOnInit() {
-        this.route.data.subscribe((data: { imageSetData: ImagesetData, imagesData: ImagesData }) => {
+        this.route.data.subscribe(data => {
             this.image = data.imagesData.image;
             this.annotationTypes = data.imagesData.annotationTypes;
             this.imageset = data.imageSetData.set;

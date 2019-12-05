@@ -6,6 +6,7 @@ import {CreateTeamComponent} from './components/create-team/create-team.componen
 import {ImagesetComponent} from './components/imageset/imageset.component';
 import {ListImagesetsComponent} from './components/list-imagesets/list-imagesets.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ImagesModule} from '../app-images/images.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
         CommonModule,
         ReactiveFormsModule,
         ImagesetsRoutingModule,
+        ImagesModule,
     ]
 })
 export class ImagesetsModule {

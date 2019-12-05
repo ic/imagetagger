@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {forkJoin, Observable, of} from 'rxjs';
 import {Team} from './team';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, mapTo, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {IRepository} from '../seedwork/i-repository';
 import {entityFromDto} from '../seedwork/entity';
 import {NotImplementedException} from '../seedwork/exceptions/not-implemented-exception';
 import {Environment} from '../../environments/abstract-environment';
 import {UserNetworkRepositoryService} from '../user/user-network-repository.service';
 import {User} from '../user/user';
+import {Imageset} from '../imageset/imageset';
 
 
 @Injectable({
@@ -48,6 +49,10 @@ export class TeamNetworkRepositoryService implements IRepository<Team> {
             catchError(() => []
             ),
         );
+    }
+
+    getTeamFromImageset(imageset: Imageset): Observable<Team> {
+        return this.get(imageset.team);
     }
 
     /**

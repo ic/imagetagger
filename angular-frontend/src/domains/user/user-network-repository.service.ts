@@ -7,6 +7,7 @@ import {catchError, map, mapTo} from 'rxjs/operators';
 import {NotImplementedException} from '../seedwork/exceptions/not-implemented-exception';
 import {entityFromDto} from '../seedwork/entity';
 import {Environment} from '../../environments/abstract-environment';
+import {Imageset} from '../imageset/imageset';
 
 
 @Injectable({
@@ -29,6 +30,10 @@ export class UserNetworkRepositoryService implements IRepository<User> {
     getMe(): Observable<User | null> {
         // @ts-ignore
         return this.get('me');
+    }
+
+    getCreatorFromImageset(imageset: Imageset): Observable<User> {
+        return this.get(imageset.creator);
     }
 
     remove(obj: User): void {

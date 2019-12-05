@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Imageset} from '../../../../domains/imageset/imageset';
+import {ActivatedRoute} from '@angular/router';
+import {Image} from '../../../../domains/image/image';
+import {zip} from 'rxjs';
+
 
 @Component({
     selector: 'app-list-images',
@@ -8,12 +11,15 @@ import {Imageset} from '../../../../domains/imageset/imageset';
 })
 export class ListImagesComponent implements OnInit {
 
-    @Input() imageset: Imageset;
+    protected images: Image[];
 
-    constructor() {
+    constructor(private route: ActivatedRoute) {
     }
 
     ngOnInit() {
+            this.route.data.subscribe(data => {
+           this.images = data.images;
+        });
     }
 
 }

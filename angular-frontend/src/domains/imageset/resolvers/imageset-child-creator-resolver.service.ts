@@ -20,9 +20,9 @@ export class ImagesetChildCreatorResolver implements Resolve<User> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {
-        const id = route.paramMap.get('imagesetId');
+        const id = +route.paramMap.get('imagesetId');
         return this.imagesetService.get(+id).pipe(
-            switchMap(imageset => this.userService.get(imageset.creator)),
+            switchMap(imageset => this.userService.getCreatorFromImageset(imageset)),
         );
     }
 }
