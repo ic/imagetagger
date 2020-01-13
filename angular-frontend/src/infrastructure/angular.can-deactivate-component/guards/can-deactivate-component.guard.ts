@@ -7,7 +7,7 @@ export interface CanComponentDeactivate {
     canDeactivate(): boolean | Observable<boolean>;
 }
 
-// TODO Move away from here since we dont want top-level guards
+
 @Injectable({
     providedIn: 'root'
 })

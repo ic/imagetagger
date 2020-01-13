@@ -1,16 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ImagesData} from './image-resolver.service';
 import {Imageset} from '../../../../domains/imageset/imageset';
 import {AnnotationInImage, Image} from '../../../../domains/image/image';
 import {FormControl} from '@angular/forms';
 import {AnnotationType} from '../../../../domains/annotation-type/annotation-type';
 import {AnnotationNetworkRepositoryService} from '../../../../domains/annotation/annotation-network-repository.service';
-import {AnnotationConfigData} from './annotation-type-config/annotation-type-config.component';
+import {AnnotationConfigData} from './annotation-config/annotation-config.component';
 import {AnnotatableDirective, PrematureAnnotation} from './annotatable/annotatable.directive';
-import {AnnotationVector} from '../../../../domains/annotation/annotation';
-import {CanComponentDeactivate} from '../../../guards/can-deactivate-component.guard';
-import {Observable} from 'rxjs';
+import {Annotation, AnnotationVector} from '../../../../domains/annotation/annotation';
+import {CanComponentDeactivate} from '../../../../infrastructure/angular.can-deactivate-component/guards/can-deactivate-component.guard';
+import {Observable, zip} from 'rxjs';
 import {DialogService} from '../../../services/dialog.service';
 import {Environment} from '../../../../environments/abstract-environment';
 
@@ -40,15 +39,23 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     ngOnInit() {
-        this.route.data.subscribe(data => {
-            this.image = data.imagesData.image;
-            this.annotationTypes = data.imagesData.annotationTypes;
-            this.imageset = data.imageSetData.set;
+        zip(
+            this.route.data,
+            this.route.paramMap,
+        ).subscribe(data => {
+            const routeData = data[0];
+            const paramMap = data[1];
+
+            this.imageset = routeData.imageset;
+            this.annotationTypes = routeData.annotationTypes;
+            this.image = routeData.images.find(image => image.id === +paramMap.get('imageId'));
+
             this.visibleAnnotations = [];
         });
     }
 
     /**
+     * @deprecated
      * Find the AnnotationType object based on its fields
      *
      * All given parameters must match but those left out are ignored.
@@ -73,6 +80,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * Convert an AnnotationVector to an Iterable because *ngFor needs that
      */
     protected annotationVectorToIterable(vector: AnnotationVector): { key: string, value: string }[] {
@@ -88,6 +96,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * Delete the annotation with the provided ID and update `this.image.annotations`.
      */
     protected actDeleteAnnotation(id: number) {
@@ -100,6 +109,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * Find the index of `this.image` inside `this.imageset.images`
      *
      * This special method is needed because the two values are slightly different (with same id) which makes `.indexOf()` unusable
@@ -135,6 +145,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * Save the current premature-annotation
      */
     protected actSave() {
@@ -147,6 +158,7 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * Toggle the visibility of an existing annotation
      */
     protected actToggleVisibility(annotation: AnnotationInImage) {
@@ -158,11 +170,16 @@ export class ImageComponent implements OnInit, CanComponentDeactivate {
     }
 
     /**
+     * @deprecated
      * This component can deactivate if no component is currently being drawn
      */
     canDeactivate(): Observable<boolean> | boolean {
-        return this.prematureAnnotation !== null && this.prematureAnnotation.vector !== null
-            ? this.dialog.confirm('You have an unsaved annotation')
-            : true;
+        return true;
+        /*
+                return this.prematureAnnotation !== null && this.prematureAnnotation.vector !== null
+                    ? this.dialog.confirm('You have an unsaved annotation')
+                    : true;
+
+         */
     }
 }

@@ -1,17 +1,17 @@
 <div class="container-fluid">
     <div class="row">
+        <!-- List of images on left side -->
         <div class="col col-3">
-            <!-- List of images on left side -->
-            <app-list-images></app-list-images>
+            <app-list-images imagesUrl="../"></app-list-images>
         </div>
 
+        <!-- Annotation window in center of screen -->
         <div class="col col-6">
-            <!-- Annotation window in center of screen -->
             <div class="card">
                 <h5 class="card-header">Annotate {{image.name}}</h5>
 
+                <!-- Canvas with image and actual annotations shown -->
                 <div class="image-wrapper">
-                    <!-- Canvas with image and actual annotations shown -->
                     <img class="card-img" [src]="environment.mediaUrl + image.url" alt="Image to annotate">
                     <canvas appAnnotatable
                             [annotationConfig]="annotationConfigData"
@@ -23,14 +23,14 @@
                     </canvas>
                 </div>
 
+                <!-- List of annotations -->
                 <div class="card-body">
-                    <!-- List of annotations -->
                     <div class="card-title">
                         <span class="h5">Annotations</span>
                     </div>
 
+                    <!-- Premature Annotations -->
                     <div *ngIf="prematureAnnotation && prematureAnnotation.vector">
-                        <!-- Premature Annotations -->
                         <div class="dropdown-divider"></div>
                         <span>
                             <i>(WIP)</i> {{prematureAnnotation.annotationType.name}}
@@ -44,15 +44,19 @@
                             <i class="fa fa-save"></i> Save
                         </button>
                         <br>
+
                         <span *ngFor="let point of annotationVectorToIterable(prematureAnnotation.vector)"
                               class="text-muted">
                             {{point.key}}:{{point.value}}
                         </span>
                     </div>
 
-                    <div *ngFor="let annotation of image.annotations">
-                        <!-- Completed annotations -->
-                        <div class="dropdown-divider"></div>
+                    <!-- Completed annotations -->
+                    <div *ngFor="let annotationId of image.annotations">
+                        <app-annotation-metadata [annotationId]="annotationId">
+                        </app-annotation-metadata>
+
+                        <!--div class="dropdown-divider"></div>
                         <span>
                             {{findAnnotationType(annotation.annotationType).name}}
                             {{annotation.blurred ? '(blurred)' : ''}}
@@ -72,24 +76,29 @@
                         <br>
                         <span *ngFor="let point of annotationVectorToIterable(annotation.vector)" class="text-muted">
                             {{point.key}}:{{point.value}}
-                        </span>
+                        </span-->
                     </div>
                 </div>
             </div>
         </div>
 
+
+        <!-- Controls on right side of screen -->
         <div class="col col-3">
+
             <!-- AnnotationType controls -->
             <div class="card">
                 <div class="card-body">
                     <app-annotation-type-config (update)="annotationConfigData = $event"></app-annotation-type-config>
-                    <div class="alert alert-danger">At some point there will be a bounding box which can be moved with
-                        i j k l
+                    <div class="alert alert-danger">
+                        At some point there will be a bounding box which can be moved with i j k l
                     </div>
                 </div>
             </div>
 
+            <!-- Divider -->
             <div class="my-2"></div>
+
             <!-- Navigation buttons -->
             <div class="card">
                 <div class="card-body">

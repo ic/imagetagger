@@ -18,10 +18,10 @@ export interface AnnotationConfigData {
 
 @Component({
     selector: 'app-annotation-type-config',
-    templateUrl: './annotation-type-config.component.html',
-    styleUrls: ['./annotation-type-config.component.scss']
+    templateUrl: './annotation-config.component.html',
+    styleUrls: ['./annotation-config.component.scss']
 })
-export class AnnotationTypeConfigComponent implements OnInit {
+export class AnnotationConfigComponent implements OnInit {
 
     @Output() update: EventEmitter<AnnotationConfigData> = new EventEmitter(true);
 
@@ -61,8 +61,8 @@ export class AnnotationTypeConfigComponent implements OnInit {
             const data = value[0];
             const queryParams = value[1];
 
-            this.annotationTypes = data.imagesData.annotationTypes;
-            this.imageset = data.imageSetData.set;
+            this.annotationTypes = data.annotationTypes;
+            this.imageset = data.imageset;
 
             this.setupAnnotationType(queryParams);
         });

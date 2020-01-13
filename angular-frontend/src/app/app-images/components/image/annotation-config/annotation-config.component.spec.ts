@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnnotationTypeConfigComponent } from './annotation-type-config.component';
+import { AnnotationConfigComponent } from './annotation-config.component';
 
 describe('AnnotationTypeConfigComponent', () => {
-  let component: AnnotationTypeConfigComponent;
-  let fixture: ComponentFixture<AnnotationTypeConfigComponent>;
+  let component: AnnotationConfigComponent;
+  let fixture: ComponentFixture<AnnotationConfigComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnnotationTypeConfigComponent ]
+      declarations: [ AnnotationConfigComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnnotationTypeConfigComponent);
+    fixture = TestBed.createComponent(AnnotationConfigComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

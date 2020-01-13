@@ -1,5 +1,5 @@
 import {AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {AnnotationConfigData} from '../annotation-type-config/annotation-type-config.component';
+import {AnnotationConfigData} from '../annotation-config/annotation-config.component';
 import {AnnotationInImage, Image} from '../../../../../domains/image/image';
 import {AnnotationMode} from './annotation-mode';
 import {AnnotationType, VectorType} from '../../../../../domains/annotation-type/annotation-type';

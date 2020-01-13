@@ -11,7 +11,7 @@ import {Environment} from '../../environments/abstract-environment';
 @Injectable({
     providedIn: 'root'
 })
-export class AnnotationTypeService implements IRepository<AnnotationType> {
+export class AnnotationTypeNetworkRepositoryService implements IRepository<AnnotationType> {
 
     public readonly url;
 
@@ -23,6 +23,18 @@ export class AnnotationTypeService implements IRepository<AnnotationType> {
         const url = `${this.url}${key}/`;
         return this.http.get<object>(url)
             .pipe(map(dto => entityFromDto(dto, AnnotationType.prototype)));
+    }
+
+    getAll(): Observable<AnnotationType[]> {
+        return this.http.get<object[]>(this.url).pipe(
+            map(dtos => {
+                const result = [];
+                for (const dto of dtos) {
+                    result.push(entityFromDto(dto, AnnotationType.prototype));
+                }
+                return result;
+            })
+        );
     }
 
     remove(obj: AnnotationType): void {

@@ -8,7 +8,7 @@ import {enableProdMode} from '@angular/core';
 export class DevEnvironment extends Environment {
     production = false;
     apiUrl = 'http://localhost:8000/api/';
-    mediaUrl = 'http://localhost:8000/';
+    mediaUrl = 'http://localhost:8000';
     localStoragePrefix = 'imagetagger-dev';
     sessionStoragePrefix = 'imagetagger-dev';
 

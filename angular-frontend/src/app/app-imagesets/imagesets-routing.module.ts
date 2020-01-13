@@ -36,7 +36,8 @@ const routes: Routes = [
                     creator: ImagesetChildCreatorResolver,
                     images: ImagesetChildImagesResolver,
                 }
-            }
+            },
+            {path: 'image', loadChildren: 'src/app/app-images/images.module#ImagesModule'}
         ]
     },
 

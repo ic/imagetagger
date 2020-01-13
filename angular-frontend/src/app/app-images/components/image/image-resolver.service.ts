@@ -5,7 +5,7 @@ import {EMPTY, Observable, zip} from 'rxjs';
 import {ImageNetworkRepositoryService} from '../../../../domains/image/image-network-repository.service';
 import {catchError, flatMap, map, tap} from 'rxjs/operators';
 import {AnnotationType} from '../../../../domains/annotation-type/annotation-type';
-import {AnnotationTypeService} from '../../../../domains/annotation-type/annotation-type.service';
+import {AnnotationTypeNetworkRepositoryService} from '../../../../domains/annotation-type/annotation-type-network-repository.service';
 
 
 export interface ImagesData {
@@ -19,7 +19,7 @@ export interface ImagesData {
 })
 export class ImageResolverService implements Resolve<ImagesData> {
 
-    constructor(private imagesService: ImageNetworkRepositoryService, private atService: AnnotationTypeService, private router: Router) {
+    constructor(private imagesService: ImageNetworkRepositoryService, private atService: AnnotationTypeNetworkRepositoryService, private router: Router) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ImagesData> {
