@@ -244,7 +244,7 @@ def export_format(export_format_name, imageset):
     annotation_counter = 0
 
     if export_format_name.image_aggregation:
-        image_content = '\n'
+        image_content = []
         for image in images:
             annotations = Annotation.objects.annotate_verification_difference()\
                 .filter(image=image,
@@ -256,7 +256,7 @@ def export_format(export_format_name, imageset):
             if not export_format.include_concealed:
                 annotations = annotations.exclude(_concealed=True)
             if annotations:
-                annotation_content = ''
+                annotation_content = []
                 for annotation in annotations:
                     annotation_counter += 1
                     if annotation.not_in_image:
@@ -270,7 +270,7 @@ def export_format(export_format_name, imageset):
                             '%%veriamount': annotation.verification_difference,
                         }
                     else:
-                        formatted_vector = str()
+                        formatted_vector = []
                         for counter1 in range(1, (len(annotation.vector) // 2) + 1):
                             vector_line = export_format.vector_format
                             placeholders_vector = {
@@ -284,7 +284,7 @@ def export_format(export_format_name, imageset):
                             }
                             for key, value in placeholders_vector.items():
                                 vector_line = vector_line.replace(key, str(value))
-                            formatted_vector += vector_line
+                            formatted_vector.append(vector_line)
                         formatted_annotation = export_format.annotation_format
                         formatted_annotation = apply_conditional(formatted_annotation, '%%ifblurred', annotation.blurred)
                         formatted_annotation = apply_conditional(formatted_annotation, '%%ifnotblurred', not annotation.blurred)
@@ -297,7 +297,7 @@ def export_format(export_format_name, imageset):
                             '%%imagename': image.name,
                             '%%type': annotation.annotation_type.name,
                             '%%veriamount': annotation.verification_difference,
-                            '%%vector': formatted_vector,
+                            '%%vector': ','.join(formatted_vector),
                             # absolute values
                             '%%rad': annotation.radius,
                             '%%dia': annotation.diameter,
@@ -324,7 +324,7 @@ def export_format(export_format_name, imageset):
                     for key, value in placeholders_annotation.items():
                         formatted_annotation = formatted_annotation\
                             .replace(key, str(value))
-                    annotation_content += formatted_annotation + '\n'
+                    annotation_content.append(formatted_annotation)
 
                 formatted_image = export_format.image_format
                 placeholders_image = {
@@ -332,13 +332,13 @@ def export_format(export_format_name, imageset):
                     '%%imagewidth': image.width,
                     '%%imageheight': image.height,
                     '%%imagename': image.name,
-                    '%%annotations': annotation_content,
+                    '%%annotations': ','.join(annotation_content),
                     '%%annoamount': annotations.count(),
                 }
                 for key, value in placeholders_image.items():
                     formatted_image = formatted_image.replace(key, str(value))
-                image_content += formatted_image + '\n'
-        formatted_content = image_content
+                image_content.append(formatted_image)
+        formatted_content = ','.join(image_content)
     else:
         annotations = Annotation.objects.annotate_verification_difference()\
             .filter(image__in=images,
